@@ -1,9 +1,9 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="en-us">
 
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Letter Speaker</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -23,7 +23,9 @@
 <body>
 
   <section id="text-display">
-    A
+    <div id="text-container">A</div>
+    <label for="letter-entry" aria-label="press any letter key" class="sr-only">Press any letter key</label>
+    <input type="text" id="letter-entry" maxlength="1">
   </section>
   
   <script>
@@ -118,10 +120,13 @@
       }
     }
     
-    const field = document.getElementById('text-display');
+    const field = document.getElementById('text-container');
     //creating HTML elements from local audio files
     loadAudio(sounds);
     window.addEventListener('keydown', logKey);
+    //focusing on input
+    document.getElementById('letter-entry').focus();
+
     
     function logKey(e) {
       k = e.key.toUpperCase();
