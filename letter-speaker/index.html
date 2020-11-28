@@ -23,9 +23,9 @@
 <body>
 
   <section id="text-display">
-    <div id="text-container">A</div>
-    <label for="letter-entry" aria-label="press any letter key" class="sr-only">Press any letter key</label>
-    <input type="text" id="letter-entry" maxlength="1">
+    <div id="text-container" aria-live="polite" aria-label="this is the letter A">A</div>
+    <label for="letter-entry" class="sr-only" id="fieldLabel">Press any letter key</label>
+    <input type="text" id="letter-entry" maxlength="1" class="sr-only" aria-labelledby="fieldLabel">
   </section>
   
   <script>
@@ -119,23 +119,29 @@
         document.body.appendChild(audioElement);
       }
     }
+
+    function logKey(e) {
+      k = e.key.toUpperCase();
+      if("ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(k) > -1){
+        display.textContent = e.key.toUpperCase();
+        display.setAttribute("aria-label", displayLabel + k);
+        //playing the newly created audio element from loadAudio
+        document.getElementById(k).play();
+        entry.value = "";
+      }  
+    }
     
-    const field = document.getElementById('text-container');
+    const display = document.getElementById('text-container');
+    const entry = document.getElementById('letter-entry');
+    const displayLabel ="this is the letter ";
+
     //creating HTML elements from local audio files
     loadAudio(sounds);
     window.addEventListener('keydown', logKey);
     //focusing on input
-    document.getElementById('letter-entry').focus();
+    entry.focus();
 
-    
-    function logKey(e) {
-      k = e.key.toUpperCase();
-      if("ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(k) > -1){
-        field.textContent = e.key.toUpperCase();
-        //playing the newly created audio element from loadAudio
-        document.getElementById(k).play();
-      }  
-    }
+  
 
   </script>
 
