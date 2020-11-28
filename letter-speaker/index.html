@@ -1,9 +1,9 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="en-us">
 
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Letter Speaker</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -23,7 +23,9 @@
 <body>
 
   <section id="text-display">
-    A
+    <div id="text-container" aria-live="polite" aria-label="this is the letter A">A</div>
+    <label for="letter-entry" class="sr-only" id="fieldLabel">Press any letter key</label>
+    <input type="text" id="letter-entry" maxlength="1" class="sr-only" aria-labelledby="fieldLabel">
   </section>
   
   <script>
@@ -117,20 +119,29 @@
         document.body.appendChild(audioElement);
       }
     }
-    
-    const field = document.getElementById('text-display');
-    //creating HTML elements from local audio files
-    loadAudio(sounds);
-    window.addEventListener('keydown', logKey);
-    
+
     function logKey(e) {
       k = e.key.toUpperCase();
       if("ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(k) > -1){
-        field.textContent = e.key.toUpperCase();
+        display.textContent = e.key.toUpperCase();
+        display.setAttribute("aria-label", displayLabel + k);
         //playing the newly created audio element from loadAudio
         document.getElementById(k).play();
+        entry.value = "";
       }  
     }
+    
+    const display = document.getElementById('text-container');
+    const entry = document.getElementById('letter-entry');
+    const displayLabel ="this is the letter ";
+
+    //creating HTML elements from local audio files
+    loadAudio(sounds);
+    window.addEventListener('keydown', logKey);
+    //focusing on input
+    entry.focus();
+
+  
 
   </script>
 
